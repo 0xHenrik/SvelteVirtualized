@@ -1,32 +1,26 @@
 <script lang="ts">
 	// --------- Imports ---------
 	import {getContext} from 'svelte';
+	import {getTableStateByKey} from '$lib/state/virtualTableState.svelte';
 	// --------- State ---------
-	let data = getContext("tableData")
-	let width = getContext("columnWidth")
+	let columns = getTableStateByKey("columns")
 	// --------- Derived ---------
-	const columns = $derived(Object.keys(data[0]));
+
 	// --------- Inspect ---------
-	$inspect(width);
+	// --------- Function --------
 </script>
-<div class="grid grid-cols-5">
-	<div class="header-cell">albumId</div>
-	<div class="header-cell">id</div>
-	<div class="header-cell">title</div>
-	<div class="header-cell">url</div>
-	<div class="header-cell">thumbnailUrl</div>
+<div class="grid grid-cols-{columns.length}">
+	{#each columns as col (col.index)}
+		<div class="w-{col.width}" class:frozen={col.frozen}>
+			{col.name}
+		</div>
+	{/each}
 </div>
 
 <style>
 
+	.frozen{
+			background-color: gray;
+	}
 
-    .header-cell {
-        padding: 10px;
-        font-weight: bold;
-        text-align: left;
-    }
-
-    .header-cell:last-child {
-        border-right: none;
-    }
 </style>

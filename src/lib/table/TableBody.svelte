@@ -1,6 +1,7 @@
 <script lang="ts">
 	// --------- Import ---------
 	import { getContext } from "svelte";
+	import {getTableStateByKey} from '$lib/state/virtualTableState.svelte';
 
 	// --------- State ---------
 	let data = getContext("tableData"); // Get data from the context
@@ -9,7 +10,7 @@
 	let containerHeight = $state(600); // Height of the scrollable body in pixels
 	let scrollTop = $state(0); // Tracks the scroll position
 	let visibleRows = $state([]); // Subset of rows to render
-
+  let columns = getTableStateByKey("columns");
 	// --------- Derived ---------
 	let totalHeight = $derived(data.length * rowHeight); // Total height of the table
 	let startIndex = $derived(Math.floor(scrollTop / rowHeight)); // Start index
@@ -42,15 +43,19 @@
 				class="rows"
 				style="top: {startIndex * rowHeight}px;"
 			>
-				{#each visibleRows as row (row.id)}
-					<div class="grid grid-cols-5" style="height: {rowHeight}px;">
-						<div class="cell">{row.albumId}</div>
-						<div class="cell">{row.id}</div>
-						<div class="cell">{row.title}</div>
-						<div class="cell"><a href="{row.url}" target="_blank">Link</a></div>
-						<div class="cell">
-							<img src="{row.thumbnailUrl}" alt="Thumbnail" width="50" />
-						</div>
+				{#each visibleRows as row,index (row.id)}
+
+					<div class="grid grid-cols-{columns.length}" style="height: {rowHeight}px;">
+						{#each columns as col}
+							<div class="w-{col.width}" class:frozen={col.frozen}>{row[col.name]}</div>
+						{/each}
+<!--						<div class="cell">{row.albumId}</div>-->
+<!--						<div class="cell">{row.id}</div>-->
+<!--						<div class="cell">{row.title}</div>-->
+<!--						<div class="cell"><a href="{row.url}" target="_blank">Link</a></div>-->
+<!--						<div class="cell">-->
+<!--							<img src="{row.thumbnailUrl}" alt="Thumbnail" width="50" />-->
+<!--						</div>-->
 					</div>
 				{/each}
 			</div>
@@ -62,7 +67,9 @@
 
 
 
-
+	.frozen{
+			background-color: gray;
+	}
     .body {
         height: 600px; /* Match containerHeight */
         overflow-y: auto;
