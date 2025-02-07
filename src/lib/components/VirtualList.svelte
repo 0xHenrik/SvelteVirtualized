@@ -17,7 +17,7 @@
 	let offsetY = $derived(startIndex * itemHeight);
 
 	// Compute total width dynamically if columnWidths are provided
-	let totalWidth = $derived(columnWidths.length ? columnWidths.reduce((a, b) => a + b, 0) : "50%");
+	let totalWidth = $derived(columnWidths.length ? columnWidths.reduce((a, b) => a + b, 0) : "100%");
 
 	$effect(() => {
 		if (container) {
@@ -67,7 +67,7 @@
 <div bind:this={container} class="table-container" style="--container-height: {containerHeight}px;">
 	<div class="table-header" bind:this={contentWrapper}>
 		{#each columnWidths as width, index}
-			<div class="border" style="min-width: {width}px; border-bottom: 1px solid #ddd; padding: 5px;">
+			<div class="border bg-white" style="min-width: {width}px; border-bottom: 1px solid #ddd; padding: 5px;">
 				Header {index}
 			</div>
 		{/each}

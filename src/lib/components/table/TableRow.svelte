@@ -3,7 +3,7 @@
 	 const {item}  = $props();
 	 const col = $derived(Object.keys(item))
 </script>
-<div class="flex justify-between w-full">
+<div class="flex w-full">
 	{#each col as col,index (index)}
 		<TableCell {index} cell={item[col]} />
 	{/each}
