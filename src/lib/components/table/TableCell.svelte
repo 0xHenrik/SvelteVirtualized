@@ -1,6 +1,8 @@
 <script lang="ts">
-	const {cell} = $props()
+	const {cell,index} = $props()
+	let columnWidths = [150, 200, 250,100,230,200,200,300,100,100]; // Widths for each column
+
 </script>
-<div>
-	{cell}
+<div class="border max-h-[25px]" style={`width: ${columnWidths[index]}px;`}>
+	heisann
 </div>

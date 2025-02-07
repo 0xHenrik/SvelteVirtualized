@@ -1,13 +1,12 @@
-<script>
-	import VirtualList from "$lib/components/VirtualList.svelte";
-	import { onMount } from 'svelte';
-	import mockData from '../../mock_data.json';
+<script lang="ts">
+	import TableHeader from '$lib/components/table/TableHeader.svelte';
+	import TableBody from '$lib/components/table/TableBody.svelte';
+	import { setContext } from 'svelte';
 
-	onMount(() =>{
-		console.log(mockData);
-	})
-
-
+	const {data} = $props();
+	setContext("tableData",data)
+	$inspect(data)
 </script>
-
-<VirtualList items={mockData} itemHeight={50} containerHeight={400} />
+<div>
+	<TableBody />
+</div>
